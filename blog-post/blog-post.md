@@ -1,13 +1,15 @@
 # Problem Statement
 
-Often when scraping data from the Internet we will find unstructured names,
-that is to say names without structured data about 
+One of the big challenges of integrating data 
+from a variety of sources on the Internet
+is of dealing with unstructured information.
+Unstructured information can be as simple as names 
+for which it isn't specified
 which part is a given name, a family name, etc.
-A structured representation that covered 
+A structured representation that covered
 the whole variety of naming conventions in the world
-would be challengingly complex.
-However,
-for the purposes of handling Japanese names, 
+would be complex, 
+but for the purposes of handling Japanese names, 
 we can assume that names consist of one family name and one given name.
 The Japanese language convention is to order names `family name` `given name`,
 and we assume that Japanese names written in Japanese follow this convention.
@@ -18,21 +20,29 @@ and Japanese people follow this convention when romanizing their names - sometim
 Depending on the individual,
 and on the context of where we found the name,
 a romanized Japanese name could really be in either order.
-In order to make the best use of scraped data,
-we want to determine which of two romanized Japanese names 
+However, 
+if we want to refer back to that person 
+we want to use the correct name order for the Japanese language.
+That means that in order to utilize romanized Japanese names
+in Japanese language contexts
+we really need to determine which of the names
 is the given name and which is the family name.
 
 While more than one hundred thousand 
-Japanese family names have been confirmed to exist [1],
+Japanese family names have been confirmed to exist <sup id="a1">[1](#f1)</sup>,
 only twenty thousand family names
-cover more than ninety nine percent of Japanese people [2, 3].
-Furthermore,
+cover more than ninety nine percent of Japanese people
+<sup id="a2">[2](#f2)</sup> <sup id="a3">[3](#f3)</sup>.
+Luckily,
 there is a lot of data available about the frequency of individual family names.
 The situation with personal names is less tractable,
-in that there are more personal names
-and less extensive data about them.
+in that there are more personal names extant,
+and new ones can be created at will.
+The data coverage is therefore understandably less thorough.
 Because of this data difference it was decided to treat the problem as
 picking which of two names is more likely to be a family name.
+That is obviously not a perfect formulation,
+but we judged it sufficient to get to a 1.0.
 
 ## Romanization
 
@@ -42,7 +52,7 @@ and the phonetic characters used to write how a name is read (furigana).
 Furigana alone is not enough to determine the romanization of a name [4],
 but for our purposes it is sufficient to convert romanizations to furigana.
 An issue arises however,
-in that there is more than one official romanization scheme in active use today,
+in that there are several romanization schemes in active use today,
 and in practice names are often romanized omitting
 the marks and accents prescribed by the official schemes.
 We could not find an existing library that could handle converting
@@ -202,18 +212,19 @@ and releases available for installation
 [on PyPI](https://pypi.org/project/myouji-kenchi/).
 
 
-\[1\] https://myoji-yurai.net/ The definition of distinct for family names
+<b id="f1">1</b>: https://myoji-yurai.net/ The definition of distinct for family names
 varies based on the source of data and the context of the discussion. For the
 purpose of the one hundred thousand number, a name is counted as distinct from
 another if either the preferred writing or the pronunciation are at all
-different.
+different. [↩](#a1)
 
-\[2\] http://www.orsj.or.jp/\~archive/pdf/bul/Vol.23_06_357.pdf
+<b id="f2">2</b>: http://www.orsj.or.jp/\~archive/pdf/bul/Vol.23_06_357.pdf [↩](#a2)
 
-\[3\] For comparison,
+<b id="f3">3</b>: For comparison,
 although the United States is perhaps unusually diverse,
 in the 2010 census more than two million surnames 
 fail to cover ninety nine percent of Americans.
+[↩](#a3)
 
 \[4\] It also depends on the kanji, or Chinese characters, that make up a name
 
