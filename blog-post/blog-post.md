@@ -46,10 +46,11 @@ but we judged it sufficient to get to a 1.0.
 
 ## Romanization
 
-Data available about Japanese names naturally stores names in two forms,
+Data available about Japanese names 
+naturally records at least two pieces of information,
 the text of a name used in normal writing,
-and the phonetic characters used to write how a name is read (furigana).
-Furigana alone is not enough to determine the romanization of a name [4],
+and the furigana, i.e. phonetic characters used to write how a name is read.
+Furigana alone is not enough to determine the romanization of a name <sup id="a4">[4](#f4)</sup>,
 but for our purposes it is sufficient to convert romanizations to furigana.
 An issue arises however,
 in that there are several romanization schemes in active use today,
@@ -57,10 +58,11 @@ and in practice names are often romanized omitting
 the marks and accents prescribed by the official schemes.
 We could not find an existing library that could handle converting
 potentially ambiguous romanized strings 
-to Japanese phonetic characters.
+to Japanese phonetic characters,
+and so resolved to write one ourselves.
 For this project we decided to target the 
 (Modified) Hepburn, Kunrei-shiki, and Nihon-shiki romanization schemes,
-as well as those schemes with some common variations (e.g. omitting macrons).
+as well as some common variations on those schemes (e.g. omitting accents).
 
 (Some diagrams about romanization? Are the details important?)
 
@@ -123,10 +125,10 @@ The following FST translates `meow` to:
 To order two names we combine some heuristics
 with a finite state transducer responsible for 
 evaluating the likelihood strings are romanized Japanese family names.
-That transducer is composed of two modules which are composed together,
+That transducer consists of two modules which are composed together,
 a transliterator responsible for 
 translating between Latin characters and furigana,
-and an acceptor [5] responsible for 
+and an acceptor <sup id="a5">[5](#f5)</sup> responsible for 
 injecting into the process lexical knowledge,
 i.e. empirical knowledge about the use of language.
 
@@ -165,8 +167,8 @@ we could write a transliterator to do a mapping:
 
 Just using the transliterator alone is not enough,
 we need to incorporate lexical knowledge 
-in order to distinguish what merely looks like a Japanese family name
-from what actually could be one.
+in order to distinguish what merely looks like romanized Japanese 
+from what actually could be a family name.
 We combine two sources of data: 
 relatively fine grained frequency information 
 for about ten thousand of the most popular family names,
@@ -198,8 +200,11 @@ Furthermore,
 in our data,
 we find that in names where one name is an initial it is very likely that
 the initialized name is the given name.
-In truth,
-these two heuristics resolve a lot of ambiguity all on their own.
+Some more research might be useful to determine 
+if this observation is particular to our data,
+or true generally about Japanese writing in English.
+These two heuristics resolve a lot of ambiguity all on their own,
+but there is still plenty of room for the rest of the algorithm to work.
 
 
 # Open Source Package
@@ -226,6 +231,6 @@ in the 2010 census more than two million surnames
 fail to cover ninety nine percent of Americans.
 [↩](#a3)
 
-\[4\] It also depends on the kanji, or Chinese characters, that make up a name
+<b id="f4">4</b>: It also depends on the kanji, or Chinese characters, that make up a name [↩](#a4)
 
-\[5\] An acceptor is a special case of an FST that either produces no output or exactly the input.
+<b id="f5">5</b>: An acceptor is a special case of an FST that either produces no output or exactly the input [↩](#a5)
