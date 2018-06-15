@@ -44,7 +44,7 @@ picking which of two names is more likely to be a family name.
 That is obviously not a perfect formulation,
 but we judged it sufficient to get to a 1.0.
 
-## Romanization
+## Reversing Romanization
 
 Data available about Japanese names 
 naturally records at least two pieces of information,
@@ -209,13 +209,15 @@ but there is still plenty of room for the rest of the algorithm to work.
 
 # Open Source Package
 
-We decided to open source under a MIT license 
-the myouji-kenchi package we developed.
+We decided to open source the myouji-kenchi package 
+under a MIT License.
 You can find the project code 
 [on Github](https://github.com/scouty-inc/myouji-kenchi)
 and releases available for installation 
 [on PyPI](https://pypi.org/project/myouji-kenchi/).
 
+
+## Footnotes
 
 <b id="f1">1</b>: https://myoji-yurai.net/ The definition of distinct for family names
 varies based on the source of data and the context of the discussion. For the
