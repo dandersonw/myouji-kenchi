@@ -1,32 +1,46 @@
-# Problem Statement
+This is Derick Anderson, a Machine Learning Intern at scouty Inc. 
+This article discusses a recent project using Finite State Transducers
+to create structured representations from romanized Japanese names.
+
+# Background
+
+scouty has the goal of "elminating the mismatch from the world",
+in pursuit of which we run a service to optimally match engineers with companies
+based on integrating heterogeneous open data from around the Internet.
+As part of that service
+we provide a means for companies to contact candidates by email.
+However,
+due to privacy considerations we cannot necessarily show the candidate's name
+to our clients on first contact -
+if the client wishes to address the candidate they write `Mr. LAST_NAME`
+and we fill in the name automatically.
+Because of this automatic process
+we need the first\_name and last\_name fields in our database to reflect
+the candidates actual first and last names.
 
 One of the big challenges of integrating data 
 from a variety of sources on the Internet
-is of dealing with unstructured information.
-Unstructured information can be as simple as names 
-for which it isn't specified
-which part is a given name, a family name, etc.
+is dealing with unstructured information.
+In this case,
+names represented as strings are unstructured information 
+that we need to convert into a structured representation.
 A structured representation that covered
 the whole variety of naming conventions in the world
-would be complex, 
+would be staggeringly complex, 
 but for the purposes of handling Japanese names, 
 we can assume that names consist of one family name and one given name.
 The Japanese language convention is to order names `family name` `given name`,
 and we assume that Japanese names written in Japanese follow this convention.
-An issue arises however when we find a romanized Japanese name,
-that is to say a Japanese name written in Latin characters.
+However,
+an issue arises when we find a romanized Japanese name,
+i.e. a Japanese name written in Latin characters.
 The Western convention is of course to write names `given name` `family name`,
 and Japanese people follow this convention when romanizing their names - sometimes.
 Depending on the individual,
 and on the context of where we found the name,
 a romanized Japanese name could really be in either order.
-However, 
-if we want to refer back to that person 
-we want to use the correct name order for the Japanese language.
-That means that in order to utilize romanized Japanese names
-in Japanese language contexts
-we really need to determine which of the names
-is the given name and which is the family name.
+
+# Problem Statement
 
 While more than one hundred thousand 
 Japanese family names have been confirmed to exist <sup id="a1">[1](#f1)</sup>,
@@ -64,9 +78,6 @@ For this project we decided to target the
 (Modified) Hepburn, Kunrei-shiki, and Nihon-shiki romanization schemes,
 as well as some common variations on those schemes (e.g. omitting accents).
 
-(Some diagrams about romanization? Are the details important?)
-
-
 # Finite State Transducers
 
 The finite state transducer (FST) is a venerable tool 
@@ -74,7 +85,11 @@ that has found a lot of use in natural language processing
 for tasks from string normalization to part of speech tagging.
 Essentially, they are finite state machines
 that can produce output when they transition between states.
-On a theoretical level they translate between two "languages" of symbols,
+The below text assumes a basic knowledge of finite state machines;
+for a quick review the [Wikipedia article](https://en.wikipedia.org/wiki/Finite-state_machine)
+covers the topic well.
+
+On a theoretical level FSTs translate between two "languages" of symbols,
 where any one input can result in:
 * zero outputs, if the transducer does not accept an input
 * one output, if the transducer is deterministic for an input
@@ -83,8 +98,23 @@ where any one input can result in:
 Translating between two languages of symbols is a perfect match to transliteration,
 and the ability to produce multiple outputs
 is a principled way to handle ambiguity that might be present.
-We make use of the [OpenFst](http://www.openfst.org/twiki/bin/view/FST/WebHome) 
-library for a performant and expressive base implementation.
+
+## Some examples
+
+First,
+a fundamental example:
+
+![cat-dog-no-epsilon](img/cat-dog-no-epsilon.svg)
+
+The above FST translates `cat` to `dog`.
+The symbol on the left of the colon 
+represents the input necessary for a transition,
+in the same vein as a standard finite state automaton.
+The symbol on the right of the colon
+represents the output associated with a transition.
+The terminal state is represented by a double circle,
+which the machine must reach in order to accept,
+i.e. to produce any output at all.
 
 An FST that performs the following translations:
 * `cat` -> `dog`
@@ -132,6 +162,8 @@ and an acceptor <sup id="a5">[5](#f5)</sup> responsible for
 injecting into the process lexical knowledge,
 i.e. empirical knowledge about the use of language.
 
+We make use of the performant and expressive library
+[OpenFst](http://www.openfst.org/twiki/bin/view/FST/WebHome).
 
 ## Transliterator
 
