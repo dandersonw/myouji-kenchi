@@ -155,7 +155,10 @@ The following FST translates `meow` to:
 To order two names we combine some heuristics
 with a finite state transducer responsible for 
 evaluating the likelihood strings are romanized Japanese family names.
-That transducer consists of two modules which are composed together,
+
+## FST
+
+The transducer consists of two modules which are composed together,
 a transliterator responsible for 
 translating between Latin characters and furigana,
 and an acceptor <sup id="a5">[5](#f5)</sup> responsible for 
@@ -165,7 +168,7 @@ i.e. empirical knowledge about the use of language.
 We make use of the performant and expressive library
 [OpenFst](http://www.openfst.org/twiki/bin/view/FST/WebHome).
 
-## Transliterator
+### Transliterator
 
 The general strategy of the transliterator
 is to utilize FSTs potential for nondeterminism
@@ -195,7 +198,7 @@ we could write a transliterator to do a mapping:
 * `Shin'ichi` -> (`シンイチ`, 1)
 
 
-## Lexical Data
+### Lexical Data
 
 Just using the transliterator alone is not enough,
 we need to incorporate lexical knowledge 
